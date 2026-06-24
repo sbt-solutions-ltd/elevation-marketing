@@ -108,7 +108,7 @@ const { site } = useAppConfig();
         class="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-[.88rem] text-black"
       >
         <template v-for="(item, i) of site.legal" :key="item.title">
-          <span v-if="i > 0" class="text-slate-300">–</span>
+          <span v-if="i > 0" class="text-black">–</span>
           <a
             :href="item.path"
             class="transition-colors hover:text-brand-raspberry"

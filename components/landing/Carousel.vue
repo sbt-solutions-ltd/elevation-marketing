@@ -5,6 +5,9 @@ defineProps<{ intro: IntroContent }>();
 
 const { carousel: slides } = useSiteData();
 
+// Public asset paths from useSiteData need the baseURL prefix for GitHub Pages.
+const asset = useAsset();
+
 const INTERVAL = 6000;
 const current = ref(0);
 let timer: ReturnType<typeof setInterval> | null = null;
@@ -45,7 +48,7 @@ onBeforeUnmount(stop);
         :style="{ flexGrow: i === current ? 8 : 1 }"
       >
         <img
-          :src="s.img"
+          :src="asset(s.img)"
           :alt="s.label"
           class="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] ease-out"
           :class="i === current ? 'scale-100' : 'scale-[1.08]'"
