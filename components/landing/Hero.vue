@@ -34,6 +34,8 @@ defineProps<{ content: HeroContent }>();
           alt=""
           aria-hidden="true"
           fetchpriority="high"
+          width="768"
+          height="513"
           class="absolute inset-0 w-full h-full object-cover"
         />
       </picture>

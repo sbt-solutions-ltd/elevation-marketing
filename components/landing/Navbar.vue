@@ -33,6 +33,8 @@ watch(
           <img
             src="/logo.svg"
             alt="Elevation Marketing"
+            width="160"
+            height="32"
             class="max-w-[166px] h-10 md:h-8 w-auto"
           />
         </NuxtLink>

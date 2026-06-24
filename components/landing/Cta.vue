@@ -34,6 +34,8 @@ withDefaults(defineProps<Props>(), {
         src="/cta/cta-mobile.webp"
         alt=""
         aria-hidden="true"
+        width="768"
+        height="512"
         class="absolute inset-0 w-full h-full object-cover"
       />
     </picture>

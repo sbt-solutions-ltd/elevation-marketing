@@ -29,6 +29,8 @@ const { site } = useAppConfig();
             <img
               src="/footer-logo.svg"
               :alt="site.name"
+              width="154"
+              height="27"
               class="w-[150px] h-auto"
             />
           </a>

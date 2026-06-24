@@ -50,6 +50,8 @@ onBeforeUnmount(stop);
         <img
           :src="asset(s.img)"
           :alt="s.label"
+          width="944"
+          height="700"
           class="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] ease-out"
           :class="i === current ? 'scale-100' : 'scale-[1.08]'"
           loading="lazy"

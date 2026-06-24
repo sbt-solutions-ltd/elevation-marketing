@@ -6,10 +6,12 @@
 // (`nuxt generate`, run locally and in CI) set NODE_ENV=production and get the
 // sub-path; `nuxt dev` runs with NODE_ENV=development and keeps the root base.
 const isGhPages =
-  process.env.NODE_ENV === "production" || process.env.DEPLOY_ENV === "gh-pages";
+  process.env.NODE_ENV === "production" ||
+  process.env.DEPLOY_ENV === "gh-pages";
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
+  compatibilityDate: "2026-06-24",
   css: ["~/assets/css/main.css"],
   postcss: {
     plugins: {
@@ -28,9 +30,21 @@ export default defineNuxtConfig({
           href: "https://fonts.gstatic.com",
           crossorigin: "",
         },
+        // Load fonts without blocking render: fetch as `print` (non-blocking),
+        // then flip to `all` once loaded. Only the weights actually used are
+        // requested (Poppins 400-800; Plus Jakarta Sans only 600/700).
         {
           rel: "stylesheet",
-          href: "https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap",
+          href: "https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700&display=swap",
+          media: "print",
+          onload: "this.media='all'",
+        },
+      ],
+      // Fallback for users with JavaScript disabled.
+      noscript: [
+        {
+          innerHTML:
+            '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700&display=swap">',
         },
       ],
     },
