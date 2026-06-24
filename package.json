@@ -6,8 +6,7 @@
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
-    "generate:gh": "cross-env DEPLOY_ENV=gh-pages NUXT_IGNORE_LOCK=1 nuxt generate",
-    "deploy": "npm run generate:gh && gh-pages --dotfiles -d .output/public",
+    "deploy": "npm run generate && gh-pages --dotfiles -d .output/public",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
   },

@@ -5,45 +5,44 @@ on:
     branches: [master]
   workflow_dispatch:
 
-# Permissions the official Pages deployment needs.
+# Needs write access so the gh-pages CLI can push the built site to the
+# gh-pages branch (the branch GitHub Pages already serves from).
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
-# Allow only one concurrent deployment; don't cancel an in-progress run.
+# Don't run two deploys at once; let an in-progress one finish.
 concurrency:
-  group: pages
+  group: deploy-pages
   cancel-in-progress: false
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
 
       - name: Install dependencies
         run: npm ci
 
-      # Static build with baseURL=/elevation-marketing/ (set by the generate:gh script).
+      # `nuxt generate` sets NODE_ENV=production, which switches nuxt.config to
+      # the /elevation-marketing/ baseURL. Set explicitly too as a safeguard.
       - name: Generate static site
-        run: npm run generate:gh
+        run: npm run generate
+        env:
+          NODE_ENV: production
 
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: .output/public
+      - name: Configure git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+      # Publishes .output/public to the gh-pages branch using the token that
+      # actions/checkout persisted (no third-party action needed). --dotfiles
+      # keeps .nojekyll so the _nuxt/ assets are served.
+      - name: Publish to gh-pages
+        run: npx gh-pages --dotfiles -d .output/public

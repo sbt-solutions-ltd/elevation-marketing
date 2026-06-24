@@ -2,9 +2,11 @@
 
 // When deploying to GitHub Pages the site is served from a sub-path
 // (https://sbt-solutions-ltd.github.io/elevation-marketing/), so every asset
-// URL must be prefixed with the repo name. The `deploy` script sets
-// DEPLOY_ENV=gh-pages; local `dev`/`generate` keep the root base URL.
-const isGhPages = process.env.DEPLOY_ENV === "gh-pages";
+// URL must be prefixed with the repo name. Production static builds
+// (`nuxt generate`, run locally and in CI) set NODE_ENV=production and get the
+// sub-path; `nuxt dev` runs with NODE_ENV=development and keeps the root base.
+const isGhPages =
+  process.env.NODE_ENV === "production" || process.env.DEPLOY_ENV === "gh-pages";
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
