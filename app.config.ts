@@ -8,6 +8,14 @@ export default defineAppConfig({
     tagline: "Strategy. Business. Technology.",
     description:
       "Your all-in-one partner for digital growth. One solution that turns digital complexity into growth.",
+    // Public URL of the deployed site (used for canonical / Open Graph).
+    url: "https://sbt-solutions-ltd.github.io/elevation-marketing",
+    // SEO copy used for <title>, meta description, Open Graph and Twitter.
+    seoTitle: "Elevation Marketing – Digital Strategy, Technology & Growth",
+    seoDescription:
+      "Elevation Marketing integrates strategy, software, and customer operations into one agile system. We modernize tech and boost retention to turn complexity into growth.",
+    // Social share image (1200x630). Add the file at public/og-image.png.
+    ogImage: "/og-image.png",
     email: "hello@elevationmarketing.com",
     careersEmail: "careers@elevationmarketing.com",
     address:

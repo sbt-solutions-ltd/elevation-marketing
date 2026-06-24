@@ -3,17 +3,7 @@ definePageMeta({
   layout: "landing",
 });
 
-useHead({
-  title: "Elevation Marketing — Strategy. Business. Technology.",
-  meta: [
-    {
-      name: "description",
-      content:
-        "Elevation Marketing is your all-in-one partner for digital growth — strategy, software, and operations under one roof.",
-    },
-  ],
-});
-
+// Title, description and social tags are set site-wide in app.vue.
 const { hero, intro, stats, solutions } = useSiteData();
 </script>
 
