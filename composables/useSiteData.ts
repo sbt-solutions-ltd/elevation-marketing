@@ -36,19 +36,17 @@ export interface SolutionsContent {
   buttonText: string;
   items: SolutionItem[];
 }
-
-export interface Slide {
-  label: string;
-  title: string;
-  desc: string;
-  img: string;
-}
-
 export interface ServiceItem {
   number: string;
   title: string;
   offer: string;
   nutshell: string[];
+}
+export interface Slide {
+  label: string;
+  title: string;
+  desc: string;
+  img: string;
 }
 
 // Per-page content is keyed by page so a reusable component receives its slice
@@ -60,6 +58,13 @@ const hero = {
     buttonText: "Let's Talk",
     buttonLink: "/contact",
   },
+  services: {
+    title: "Everything You Need, Working as One",
+    subtitle:
+      "Strategic marketing | Seamless retention | Targeted acquisition | Scalable software | Structured delivery | Trusted compliance | Efficient finance",
+    buttonText: "Let's Talk",
+    buttonLink: "/contact",
+  },
 } satisfies Record<string, HeroContent>;
 
 const intro = {
@@ -67,6 +72,13 @@ const intro = {
     title: "The Elevation Marketing Edge",
     highlight: "Integrated by design",
     text: "Elevation Marketing is your all-in-one partner for digital growth: bringing software, strategy, and customer operations together to deliver faster results with fewer moving parts.",
+  },
+  services: {
+    title: "What we offer",
+    highlight: "What's the value of true integration?",
+    text: `When strategy, technology, and operations align, execution becomes seamless, and results go further. That’s why SBT offers a connected suite of expert services designed to support every layer of your digital business: a fully integrated system built to perform.
+
+    Each service delivers impact on its own, but together they form a streamlined engine for growth. Whether you're launching, scaling, or optimizing, our unified model reduces friction, speeds up decision-making, and drives outcomes that multiply across your entire operation.`,
   },
 } satisfies Record<string, IntroContent>;
 
@@ -84,58 +96,33 @@ const stats = {
 } satisfies Record<string, StatsContent>;
 
 const solutions = {
-  index: {
-    title: "Solutions",
-    description:
-      "Discover the comprehensive approach behind faster launches, improved performance, and lasting impact.",
-    buttonText: "Get in touch",
-    items: [
-      {
-        number: "01",
-        title: "From Fragmentation to Fluid Execution",
-        description:
-          "In the early stages of growth, it’s common for digital businesses to pull together a network of agencies, freelancers, and internal specialists to manage marketing, software, CRM, and operations. What starts as flexible support eventually turns into an operational maze. As teams grow and goals evolve, the lack of coordination between siloed providers causes delays, duplicated work, and strategic disconnects. This fragmentation not only slows execution but also burdens internal teams with managing relationships that were never designed to scale together.",
-      },
-      {
-        number: "02",
-        title: "From Legacy Systems to Agile Infrastructure",
-        description: `What once worked to get your business off the ground can become the very thing holding it back. Many teams operate on outdated tech stacks, disconnected tools, or rushed software builds that were never meant to scale. As your customer base and operational needs grow, those legacy systems generate technical debt, data silos, and increasing maintenance costs. Teams spend more time patching workarounds than progressing strategically.
+  title: "Solutions",
+  description:
+    "Discover the comprehensive approach behind faster launches, improved performance, and lasting impact.",
+  buttonText: "Get in touch",
+  items: [
+    {
+      number: "01",
+      title: "From Fragmentation to Fluid Execution",
+      description:
+        "In the early stages of growth, it’s common for digital businesses to pull together a network of agencies, freelancers, and internal specialists to manage marketing, software, CRM, and operations. What starts as flexible support eventually turns into an operational maze. As teams grow and goals evolve, the lack of coordination between siloed providers causes delays, duplicated work, and strategic disconnects. This fragmentation not only slows execution but also burdens internal teams with managing relationships that were never designed to scale together.",
+    },
+    {
+      number: "02",
+      title: "From Legacy Systems to Agile Infrastructure",
+      description: `What once worked to get your business off the ground can become the very thing holding it back. Many teams operate on outdated tech stacks, disconnected tools, or rushed software builds that were never meant to scale. As your customer base and operational needs grow, those legacy systems generate technical debt, data silos, and increasing maintenance costs. Teams spend more time patching workarounds than progressing strategically.
           
         Elevation Marketing helps businesses move beyond short-term fixes by modernizing their technology stack with secure, scalable platforms built for performance. Whether it’s a full system rebuild or targeted backend overhaul, we align technology with your business goals, so your systems support growth instead of slowing it down.`,
-      },
-      {
-        number: "03",
-        title: "From Isolated Journeys to Lasting Engagement",
-        description: `Attracting new users is only part of the equation. Without a strong retention strategy, many digital businesses see engaged users drop off after the first few interactions. Disconnected systems, fragmented messaging, and manual workflows create gaps in the customer journey that drive churn and erode long-term value. The cost of acquiring users rises, but the return doesn’t follow.
+    },
+    {
+      number: "03",
+      title: "From Isolated Journeys to Lasting Engagement",
+      description: `Attracting new users is only part of the equation. Without a strong retention strategy, many digital businesses see engaged users drop off after the first few interactions. Disconnected systems, fragmented messaging, and manual workflows create gaps in the customer journey that drive churn and erode long-term value. The cost of acquiring users rises, but the return doesn’t follow.
           
         Elevation Marketing connects every part of your customer engagement - UX, CRM, lifecycle campaigns, and data - into a seamless, personalized experience. We help brands strengthen loyalty through behavior-driven journeys that turn one-time users into long-term relationships. With Elevation Marketing, retention becomes a growth driver, not an afterthought.`,
-      },
-    ],
-  },
-  // TODO: replace placeholder copy below with the Services-page content.
-  services: {
-    title: "",
-    description: "",
-    buttonText: "Get in touch",
-    items: [
-      {
-        number: "01",
-        title: "",
-        description: "",
-      },
-      {
-        number: "02",
-        title: "",
-        description: "",
-      },
-      {
-        number: "03",
-        title: "",
-        description: "",
-      },
-    ],
-  },
-} satisfies Record<string, SolutionsContent>;
+    },
+  ],
+} satisfies SolutionsContent;
 
 const carousel: Slide[] = [
   {

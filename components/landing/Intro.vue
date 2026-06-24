@@ -4,7 +4,7 @@ import type { IntroContent } from "~/composables/useSiteData";
 defineProps<{ content: IntroContent }>();
 </script>
 <template>
-  <div class="grid lg:grid-cols-2 gap-8 items-start">
+  <div class="grid lg:grid-cols-2 gap-8 items-start mt-20 md:mt-28">
     <div>
       <p class="text-base font-semibold uppercase tracking-wide">
         {{ content.title }}
