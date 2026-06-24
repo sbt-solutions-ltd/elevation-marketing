@@ -1,42 +1,66 @@
+<script setup lang="ts">
+import type { HeroContent } from "~/composables/useSiteData";
+
+defineProps<{ content: HeroContent }>();
+</script>
+
 <template>
-  <main class="grid lg:grid-cols-2 place-items-center pt-16 pb-8 md:pt-8">
-    <div class="p-24 md:order-1 hidden md:block">
-      <img
-        class="rounded-full transition-transform transform hover:scale-125"
-        src="~/assets/img/hero.jpg"
-        alt="Starship starts the engine"
-        loading="eager"
-        format="avif"
-        width="512"
-        height="512"
-      />
+  <!--
+    Full-bleed image hero. A responsive <picture> swaps the background image
+    per device (mobile / tablet / desktop). The -mt cancels the layout's top
+    padding so the image sits behind the fixed navbar.
+  -->
+  <section
+    id="hero"
+    class="relative w-full -mt-28 md:-mt-36 min-h-screen flex items-center justify-center overflow-hidden"
+  >
+    <div class="absolute inset-0">
+      <picture>
+        <!-- desktop: 1024px and up -->
+        <source
+          media="(min-width: 1024px)"
+          srcset="/hero/hero-desktop.webp"
+          type="image/webp"
+        />
+        <!-- tablet: 768px–1023px -->
+        <source
+          media="(min-width: 768px)"
+          srcset="/hero/hero-tablet.webp"
+          type="image/webp"
+        />
+        <!-- mobile: up to 767px (default img) -->
+        <img
+          src="/hero/hero-mobile.webp"
+          alt=""
+          aria-hidden="true"
+          fetchpriority="high"
+          class="absolute inset-0 w-full h-full object-cover"
+        />
+      </picture>
+      <div
+        class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.55)_0%,rgba(0,0,0,0.25)_55%,rgba(0,0,0,0.4)_100%)]"
+      ></div>
     </div>
 
-    <div>
-      <h1 class="text-5xl lg:text-6xl xl:text-7xl font-bold lg:tracking-tight">
-        Marketing website done with Nuxt
+    <div
+      class="relative z-10 w-full mx-auto text-center px-5 max-w-6xl xl:max-w-7xl"
+    >
+      <h1
+        class="font-display text-white font-bold text-4xl sm:text-5xl lg:text-6xl leading-tight"
+      >
+        {{ content.title }}
       </h1>
-      <p class="text-lg mt-4 text-slate-600 max-w-xl">
-        Nuxtship is a starter template for startups, marketing websites &
-        landing pages.<wbr /> Built with Nuxt & TailwindCSS. You can quickly
-        create any website with this starter.
+      <p class="text-white/90 text-lg md:text-2xl mt-6">
+        {{ content.subtitle }}
       </p>
-      <div class="mt-6 flex flex-col sm:flex-row gap-3">
-        <LandingLink
-          href="https://github.com/Gr33nW33n/nuxtship-template"
-          target="_blank"
-          rel="noopener"
-          >Get Started</LandingLink
+      <div class="mt-10 flex justify-center">
+        <NuxtLink
+          :to="content.buttonLink"
+          class="inline-block rounded-full border-2 border-white text-white px-8 py-3.5 font-medium hover:bg-white hover:text-ink transition"
         >
-        <LandingLink
-          size="lg"
-          styleName="outline"
-          rel="noopener"
-          href="https://github.com/Gr33nW33n/nuxtship-template"
-          target="_blank"
-          >View Repo</LandingLink
-        >
+          {{ content.buttonText }}
+        </NuxtLink>
       </div>
     </div>
-  </main>
+  </section>
 </template>

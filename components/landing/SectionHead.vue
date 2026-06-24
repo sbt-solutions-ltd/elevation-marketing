@@ -1,8 +1,10 @@
-<script setup>
-defineProps({
-  align: {
-    default: "center",
-  },
+<script setup lang="ts">
+interface Props {
+  align?: string;
+}
+
+withDefaults(defineProps<Props>(), {
+  align: "center",
 });
 </script>
 

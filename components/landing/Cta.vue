@@ -1,13 +1,55 @@
+<script setup lang="ts">
+interface Props {
+  title?: string;
+  desc?: string;
+  buttonText?: string;
+  buttonLink?: string;
+}
+
+withDefaults(defineProps<Props>(), {
+  title: "Ready to move forward?",
+  desc: "Let's turn your vision into action.",
+  buttonText: "Contact us",
+  buttonLink: "/contact",
+});
+</script>
+
 <template>
   <div
-    class="bg-black px-20 py-20 mt-20 mx-auto max-w-5xl rounded-lg flex flex-col items-center text-center"
+    class="relative overflow-hidden bg-ink px-8 py-20 mt-20 md:mt-28 mx-auto flex flex-col items-center text-center"
   >
-    <h2 class="text-white text-3xl md:text-6xl">Build faster websites.</h2>
-    <p class="text-slate-500 mt-4 text-lg md:text-xl">
-      Static or Dynamic, the choice is yours with Nuxt's hybrid rendering modes.
-    </p>
-    <div class="flex mt-5">
-      <LandingLink href="#" styleName="inverted">Get Started</LandingLink>
+    <!-- Responsive background image (mobile / tablet / desktop) -->
+    <picture>
+      <source
+        media="(min-width: 1024px)"
+        srcset="/cta/cta-desktop.webp"
+        type="image/webp"
+      />
+      <source
+        media="(min-width: 768px)"
+        srcset="/cta/cta-tablet.webp"
+        type="image/webp"
+      />
+      <img
+        src="/cta/cta-mobile.webp"
+        alt=""
+        aria-hidden="true"
+        class="absolute inset-0 w-full h-full object-cover"
+      />
+    </picture>
+    <!-- Dark overlay keeps the text readable over the image -->
+    <div class="absolute inset-0 bg-ink/60"></div>
+
+    <div class="relative z-10 flex flex-col items-center">
+      <h2 class="text-white text-3xl md:text-5xl font-extrabold tracking-tight">
+        {{ title }}
+      </h2>
+      <p class="text-white/70 mt-4 text-lg md:text-xl max-w-2xl">{{ desc }}</p>
+      <div class="flex mt-8">
+        <LandingLink :href="buttonLink" styleName="inverted">{{
+          buttonText
+        }}</LandingLink>
+      </div>
     </div>
   </div>
 </template>
