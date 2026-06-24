@@ -5,18 +5,19 @@ on:
     branches: [master]
   workflow_dispatch:
 
-# Needs write access so the gh-pages CLI can push the built site to the
-# gh-pages branch (the branch GitHub Pages already serves from).
+# Permissions the official Pages deployment needs.
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
 
-# Don't run two deploys at once; let an in-progress one finish.
+# Allow only one Pages deployment at a time; let an in-progress one finish.
 concurrency:
-  group: deploy-pages
+  group: pages
   cancel-in-progress: false
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -36,15 +37,16 @@ jobs:
         env:
           NODE_ENV: production
 
-      # Publishes .output/public to the gh-pages branch. The gh-pages CLI clones
-      # into its own cache dir, so it needs the token passed in the repo URL
-      # (-r) rather than relying on the checkout's persisted credentials.
-      # --dotfiles keeps .nojekyll so the _nuxt/ assets are served.
-      - name: Publish to gh-pages
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          npx gh-pages --dotfiles -d .output/public \
-            -r "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .output/public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
