@@ -11,7 +11,7 @@ useHead({
   htmlAttrs: { lang: "en" },
   link: [
     { rel: "canonical", href: home },
-    { rel: "icon", type: "image/x-icon", href: asset("/favicon.ico") },
+    { rel: "icon", type: "image/png", href: asset("/favicon.png") },
   ],
   script: [
     {

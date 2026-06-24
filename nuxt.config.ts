@@ -30,14 +30,16 @@ export default defineNuxtConfig({
           href: "https://fonts.gstatic.com",
           crossorigin: "",
         },
-        // Load fonts without blocking render: fetch as `print` (non-blocking),
-        // then flip to `all` once loaded. Only the weights actually used are
-        // requested (Poppins 400-800; Plus Jakarta Sans only 600/700).
+        // Load fonts non-blocking but at HIGH priority (preload as style, then
+        // promote to a stylesheet on load). This keeps render unblocked while
+        // making the display font available early so the LCP heading doesn't
+        // wait on a late font swap. Only used weights are requested
+        // (Poppins 400-800; Plus Jakarta Sans only 600/700).
         {
-          rel: "stylesheet",
+          rel: "preload",
+          as: "style",
           href: "https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700&display=swap",
-          media: "print",
-          onload: "this.media='all'",
+          onload: "this.onload=null;this.rel='stylesheet'",
         },
       ],
       // Fallback for users with JavaScript disabled.
