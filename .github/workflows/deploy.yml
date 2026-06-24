@@ -36,13 +36,15 @@ jobs:
         env:
           NODE_ENV: production
 
-      - name: Configure git identity
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-      # Publishes .output/public to the gh-pages branch using the token that
-      # actions/checkout persisted (no third-party action needed). --dotfiles
-      # keeps .nojekyll so the _nuxt/ assets are served.
+      # Publishes .output/public to the gh-pages branch. The gh-pages CLI clones
+      # into its own cache dir, so it needs the token passed in the repo URL
+      # (-r) rather than relying on the checkout's persisted credentials.
+      # --dotfiles keeps .nojekyll so the _nuxt/ assets are served.
       - name: Publish to gh-pages
-        run: npx gh-pages --dotfiles -d .output/public
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          npx gh-pages --dotfiles -d .output/public \
+            -r "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
