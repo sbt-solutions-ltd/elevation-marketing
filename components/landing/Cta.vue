@@ -16,7 +16,7 @@ withDefaults(defineProps<Props>(), {
 
 <template>
   <div
-    class="relative overflow-hidden bg-ink px-8 py-20 mt-20 md:mt-28 mx-auto flex flex-col items-center text-center"
+    class="relative overflow-hidden bg-ink px-8 py-20 mt-20 mx-auto flex flex-col items-center text-center"
   >
     <!-- Responsive background image (mobile / tablet / desktop) -->
     <picture>

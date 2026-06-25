@@ -20,10 +20,10 @@ export default {
       colors: {
         ink: "#1d1d1f",
         brand: {
-          "header-outer": "#1D1D1F3D",
-          "header-inner": "#000000a3",
-          raspberry: "#DD1863",
-          "footer-border": "#f7f7f7",
+          body: "#f3f3f3",
+          "dark-blue": "#01437D",
+          "light-blue": "#3D7DB1",
+          "footer-border": "#ffffff",
         },
         muted: "#404040",
         line: "#f7f7f7",

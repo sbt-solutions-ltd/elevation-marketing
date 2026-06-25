@@ -5,15 +5,10 @@ definePageMeta({
 
 const { hero, intro, services, solutions } = useSiteData();
 
-useHead({
+useSeoMeta({
   title: "Services — Elevation Marketing",
-  meta: [
-    {
-      name: "description",
-      content:
-        "Everything you need, working as one — marketing, retention, creative, acquisition, software, project management, compliance, and finance.",
-    },
-  ],
+  description:
+    "Everything You Need, Working as One. Strategic marketing | Seamless retention | Targeted acquisition | Scalable software | Structured delivery | Trusted compliance | Efficient finance",
 });
 </script>
 
@@ -21,11 +16,8 @@ useHead({
   <LandingHero :content="hero.services" />
   <LandingContainer>
     <LandingIntro :content="intro.services" />
-  </LandingContainer>
-  <LandingAccordion :items="services" />
-  <LandingContainer>
+    <LandingServices :content="services" />
     <LandingSolutions :content="solutions" />
-    <LandingTestimonials />
-    <LandingCta />
   </LandingContainer>
+  <LandingCta />
 </template>

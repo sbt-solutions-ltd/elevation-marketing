@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { HeroContent } from "~/composables/useSiteData";
+import type { Hero } from "~/composables/useSiteData";
 
-defineProps<{ content: HeroContent }>();
+defineProps<{ content: Hero }>();
 </script>
 
 <template>
@@ -55,14 +55,6 @@ defineProps<{ content: HeroContent }>();
       <p class="text-white/90 text-lg md:text-2xl mt-6">
         {{ content.subtitle }}
       </p>
-      <div class="mt-10 flex justify-center">
-        <NuxtLink
-          :to="content.buttonLink"
-          class="inline-block rounded-full border-2 border-white text-white px-8 py-3.5 font-medium hover:bg-white hover:text-ink transition"
-        >
-          {{ content.buttonText }}
-        </NuxtLink>
-      </div>
     </div>
   </section>
 </template>

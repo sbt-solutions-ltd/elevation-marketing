@@ -1,75 +1,41 @@
 <script setup lang="ts">
-// Site-wide SEO / social metadata. Pages can override title & description with
-// their own useSeoMeta() call. Charset and viewport are added by Nuxt already.
+// Site-wide SEO defaults and structured data.
+//
+// @nuxtjs/seo handles the per-page canonical URL, og:url, sitemap and robots
+// automatically from the `site` config in nuxt.config. Pages set their own
+// title & description via useSeoMeta(), and the SEO module mirrors those into
+// og:title / og:description per page — so only the shared defaults live here.
 const { site } = useAppConfig();
 const asset = useAsset();
 
-const home = `${site.url}/`;
-const ogImage = `${site.url}${site.ogImage}`; // absolute URL required by OG/Twitter
-
 useHead({
-  htmlAttrs: { lang: "en" },
+  // Pages already include the brand in their titles (e.g. "About Us —
+  // Elevation Marketing"), so use them verbatim instead of letting the SEO
+  // module append "| Elevation Marketing" a second time.
+  titleTemplate: (title) => title || site.seoTitle,
   link: [
-    { rel: "canonical", href: home },
-    { rel: "icon", type: "image/png", href: asset("/favicon.png") },
-  ],
-  script: [
-    {
-      type: "application/ld+json",
-      innerHTML: JSON.stringify({
-        "@context": "https://schema.org",
-        "@graph": [
-          {
-            "@type": "Organization",
-            "@id": `${home}#organization`,
-            name: site.name,
-            url: home,
-            sameAs: [site.linkedin],
-          },
-          {
-            "@type": "WebSite",
-            "@id": `${home}#website`,
-            url: home,
-            name: site.name,
-            publisher: { "@id": `${home}#organization` },
-            inLanguage: "en-US",
-          },
-          {
-            "@type": "WebPage",
-            "@id": `${home}#webpage`,
-            url: home,
-            name: site.seoTitle,
-            description: site.seoDescription,
-            isPartOf: { "@id": `${home}#website` },
-            inLanguage: "en-US",
-          },
-        ],
-      }),
-    },
+    // baseURL-aware so it resolves under the GitHub Pages sub-path too.
+    { rel: "icon", type: "image/x-icon", href: asset("/favicon.ico") },
   ],
 });
 
 useSeoMeta({
   title: site.seoTitle,
   description: site.seoDescription,
-  robots:
-    "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large",
-  ogLocale: "en_US",
   ogType: "website",
-  ogTitle: site.seoTitle,
-  ogDescription: site.seoDescription,
-  ogUrl: home,
   ogSiteName: site.name,
-  ogImage,
-  ogImageWidth: 1200,
-  ogImageHeight: 630,
-  ogImageAlt: site.name,
-  ogImageType: "image/png",
+  ogLocale: "en_US",
   twitterCard: "summary_large_image",
-  twitterTitle: site.seoTitle,
-  twitterDescription: site.seoDescription,
-  twitterImage: ogImage,
 });
+
+// Organization node; @nuxtjs/seo adds the WebSite / WebPage schema per page.
+useSchemaOrg([
+  defineOrganization({
+    name: site.name,
+    url: site.url,
+    sameAs: [site.linkedin],
+  }),
+]);
 </script>
 
 <template>

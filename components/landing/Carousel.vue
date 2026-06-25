@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { IntroContent } from "~/composables/useSiteData";
+import type { Intro } from "~/composables/useSiteData";
 
-defineProps<{ intro: IntroContent }>();
+defineProps<{ intro: Intro }>();
 
 const { carousel: slides } = useSiteData();
 
@@ -29,12 +29,16 @@ function go(i: number): void {
 const next = (): void => go(current.value + 1);
 const prev = (): void => go(current.value - 1);
 
-onMounted(start);
+onMounted(() => {
+  // Respect users who prefer reduced motion: don't auto-advance the carousel.
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  start();
+});
 onBeforeUnmount(stop);
 </script>
 
 <template>
-  <section class="mt-20 md:mt-28">
+  <section class="mt-20">
     <LandingIntro :content="intro" />
     <div
       class="mt-12 flex flex-col lg:flex-row gap-3 h-[550px] lg:h-[485px] xl:h-[550px]"
@@ -106,7 +110,7 @@ onBeforeUnmount(stop);
               {{ s.title }}
             </h3>
             <p class="mt-4 max-w-md text-white/85 leading-relaxed">
-              {{ s.desc }}
+              {{ s.description }}
             </p>
 
             <div class="flex items-center gap-5 mt-8">
@@ -117,6 +121,7 @@ onBeforeUnmount(stop);
                   v-if="i === current"
                   :key="current"
                   class="progress-fill h-full bg-white"
+                  :style="{ animationDuration: `${INTERVAL}ms` }"
                 />
               </div>
               <div class="flex gap-3">
@@ -153,6 +158,13 @@ onBeforeUnmount(stop);
   }
 }
 .progress-fill {
-  animation: progressGrow 6s linear forwards;
+  /* Duration is set inline from the JS INTERVAL constant (single source). */
+  animation: progressGrow linear forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progress-fill {
+    animation: none;
+  }
 }
 </style>

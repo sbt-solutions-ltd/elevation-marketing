@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import type { SolutionsContent } from "~/composables/useSiteData";
+import type { Solutions } from "~/composables/useSiteData";
 
-defineProps<{ content: SolutionsContent }>();
+defineProps<{ content: Solutions }>();
 </script>
 
 <template>
-  <section class="mt-20 md:mt-28">
+  <section class="mt-20">
     <div class="grid lg:grid-cols-2 gap-12 items-start">
       <div class="lg:sticky lg:top-36">
-        <h2 class="text-4xl lg:text-5xl font-extrabold tracking-tight">
+        <h2 class="text-3xl lg:text-5xl font-extrabold tracking-tight">
           {{ content.title }}
         </h2>
         <p class="text-lg mt-4 text-slate-600">
@@ -38,15 +38,15 @@ defineProps<{ content: SolutionsContent }>();
 
       <div class="space-y-8">
         <div
-          v-for="item of content.items"
+          v-for="item of content.solutionItems"
           :key="item.number"
-          class="border border-gray-100 rounded-3xl p-7"
+          class="bg-white rounded-2xl backdrop-blur-xl shadow-md h-full border border-gray-100 p-6"
         >
-          <span class="text-2xl font-extrabold text-black">{{
+          <span class="text-2xl font-extrabold text-brand-dark-blue">{{
             item.number
           }}</span>
-          <h3 class="font-bold text-xl mt-4">{{ item.title }}</h3>
-          <p class="text-slate-500 mt-3 leading-relaxed whitespace-pre-line">
+          <h3 class="font-bold text-2xl mt-4">{{ item.title }}</h3>
+          <p class="text-gray-600 mt-3 leading-relaxed whitespace-pre-line">
             {{ item.description }}
           </p>
         </div>

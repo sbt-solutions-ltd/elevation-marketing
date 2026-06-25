@@ -12,13 +12,66 @@ const isGhPages =
 export default defineNuxtConfig({
   devtools: { enabled: true },
   compatibilityDate: "2026-06-24",
-  css: ["~/assets/css/main.css"],
-  postcss: {
-    plugins: {
-      tailwindcss: {},
-      autoprefixer: {},
+
+  modules: [
+    "@nuxtjs/tailwindcss",
+    "@nuxt/image",
+    "@nuxt/icon",
+    "@nuxtjs/seo",
+  ],
+
+  // Read by @nuxtjs/seo to build per-page canonical URLs, og:url and the
+  // sitemap. `url` is the origin only — the SEO modules append app.baseURL
+  // (the GitHub Pages "/elevation-marketing/" sub-path) automatically.
+  site: {
+    url: "https://sbt-solutions-ltd.github.io",
+    name: "Elevation Marketing",
+  },
+
+  // A project Pages site can't own /robots.txt at the domain root (it lives
+  // under the sub-path), so skip the file — the per-page robots meta tags that
+  // @nuxtjs/seo injects still apply. The sitemap is still generated.
+  robots: {
+    robotsTxt: false,
+  },
+
+  // No brand OG image yet — skip auto-generating placeholder ones. Re-enable
+  // (delete this line) once a real share image / template exists.
+  ogImage: { enabled: false },
+
+  // Use the existing stylesheet (holds the @tailwind directives + @layer base
+  // custom rules) instead of the module's default generated file.
+  tailwindcss: {
+    cssPath: "~/assets/css/main.css",
+  },
+
+  // Bundle the icons into the client so they render offline on static hosting
+  // (no runtime requests to the Iconify API). `scan` catches icons named
+  // statically in templates; the explicit list covers the value-card icons that
+  // come from useSiteData via :name="item.icon" (the scanner can't see those).
+  icon: {
+    clientBundle: {
+      scan: true,
+      icons: [
+        "bx:bxs-hand",
+        "bx:bxs-shield",
+        "bx:bxs-book-open",
+        "bx:bxs-bulb",
+        "bx:bxs-star",
+      ],
+      sizeLimitKb: 512,
     },
   },
+
+  // Web3Forms access key for the contact form. Set NUXT_PUBLIC_WEB3FORMS_KEY in
+  // the environment (or a .env file) — never commit the real key. Get a free
+  // key at https://web3forms.com/.
+  runtimeConfig: {
+    public: {
+      web3formsKey: "",
+    },
+  },
+
   app: {
     baseURL: isGhPages ? "/elevation-marketing/" : "/",
     head: {
@@ -51,5 +104,4 @@ export default defineNuxtConfig({
       ],
     },
   },
-  modules: ["nuxt-icon"],
 });

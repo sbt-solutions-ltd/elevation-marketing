@@ -1,8 +1,5 @@
 // app.config.ts
 export default defineAppConfig({
-  nuxtIcon: {
-    class: "",
-  },
   site: {
     name: "Elevation Marketing",
     tagline: "Strategy. Business. Technology.",
@@ -15,7 +12,7 @@ export default defineAppConfig({
     seoDescription:
       "Elevation Marketing integrates strategy, software, and customer operations into one agile system. We modernize tech and boost retention to turn complexity into growth.",
     // Social share image (1200x630). Add the file at public/og-image.png.
-    ogImage: "/og-image.png",
+    // ogImage: "/og-image.png",
     email: "hello@elevationmarketing.com",
     careersEmail: "careers@elevationmarketing.com",
     address:

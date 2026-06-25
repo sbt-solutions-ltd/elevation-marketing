@@ -5,15 +5,10 @@ definePageMeta({
 
 const { site } = useAppConfig();
 
-useHead({
+useSeoMeta({
   title: "Contact Us — Elevation Marketing",
-  meta: [
-    {
-      name: "description",
-      content:
-        "Schedule a consultation with Elevation Marketing. Partner with us and unlock your business's full potential.",
-    },
-  ],
+  description:
+    "Schedule a consultation with Elevation Marketing. Partner with us and unlock your business's full potential.",
 });
 </script>
 
@@ -33,7 +28,7 @@ useHead({
     <div class="grid md:grid-cols-2 gap-12 mx-auto max-w-4xl mt-16">
       <div>
         <h2 class="font-bold text-2xl text-gray-900">Partner With Us</h2>
-        <p class="text-lg leading-relaxed text-slate-500 mt-3">
+        <p class="text-lg leading-relaxed text-gray-600 mt-3">
           Great things happen when the right people align. Ready to build what's
           next with us? Fill out the form or reach us directly.
         </p>
