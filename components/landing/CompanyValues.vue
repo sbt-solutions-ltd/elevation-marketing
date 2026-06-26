@@ -11,11 +11,7 @@ defineProps<{ content: CompanyValues }>();
       {{ content.description }}
     </p>
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-      <div
-        v-for="item in content.valueItems"
-        :key="item.title"
-        class="bg-white rounded-2xl backdrop-blur-xl shadow-md h-full border border-gray-100 p-6"
-      >
+      <LandingCard v-for="item in content.valueItems" :key="item.title">
         <div class="flex flex-col">
           <div
             class="bg-brand-dark-blue rounded-full p-2 w-9 h-9 shrink-0 flex items-center justify-center"
@@ -30,7 +26,7 @@ defineProps<{ content: CompanyValues }>();
             </p>
           </div>
         </div>
-      </div>
+      </LandingCard>
     </div>
   </section>
 </template>

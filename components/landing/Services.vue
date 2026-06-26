@@ -13,11 +13,7 @@ defineProps<{ content: Services }>();
       {{ content.description }}
     </p>
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-      <div
-        v-for="item in content.serviceItems"
-        :key="item.number"
-        class="bg-white rounded-2xl backdrop-blur-xl shadow-md h-full border border-gray-100 p-6"
-      >
+      <LandingCard v-for="item in content.serviceItems" :key="item.number">
         <span class="text-2xl font-extrabold text-brand-dark-blue">{{
           item.number
         }}</span>
@@ -33,7 +29,7 @@ defineProps<{ content: Services }>();
             <span>{{ nutshell }}</span>
           </li>
         </ul>
-      </div>
+      </LandingCard>
     </div>
   </section>
 </template>

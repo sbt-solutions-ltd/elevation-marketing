@@ -155,14 +155,19 @@ async function onSubmit() {
         placeholder="Your Message"
         required
         maxlength="180"
-        class="w-full px-4 py-3 border-2 placeholder:text-gray-500 rounded-md outline-none h-36 focus:ring-4 border-gray-300 focus:border-gray-600 ring-gray-100"
+        class="w-full px-4 py-3 border-2 placeholder:text-gray-500 rounded-md outline-none h-35 focus:ring-4 border-gray-300 focus:border-gray-600 ring-gray-100"
       ></textarea>
       <div class="empty-feedback invalid-feedback text-red-400 text-sm mt-1">
         Please enter your message.
       </div>
     </div>
 
-    <LandingButton type="submit" size="lg" block :disabled="status === 'sending'">
+    <LandingButton
+      type="submit"
+      size="lg"
+      block
+      :disabled="status === 'sending'"
+    >
       {{ status === "sending" ? "Sending…" : "Send" }}
     </LandingButton>
 

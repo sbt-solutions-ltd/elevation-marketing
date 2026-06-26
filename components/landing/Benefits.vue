@@ -16,14 +16,15 @@ defineProps<{ content: Benefits }>();
       {{ content.description }}
     </p>
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
-      <div
+      <LandingCard
         v-for="item of content.benefitItems"
         :key="item"
-        class="flex items-start gap-2 bg-white rounded-2xl backdrop-blur-xl shadow-md h-full border border-gray-100 p-4"
+        row
+        padding="p-4"
       >
         <LandingTick className="w-6 h-6 text-brand-dark-blue shrink-0" />
         <span class="text-slate-700">{{ item }}</span>
-      </div>
+      </LandingCard>
     </div>
   </section>
 </template>

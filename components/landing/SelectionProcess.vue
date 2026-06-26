@@ -10,11 +10,7 @@ defineProps<{ content: ProcessSteps }>();
       {{ content.title }}
     </h2>
     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-8">
-      <div
-        v-for="item of content.selectionSteps"
-        :key="item.step"
-        class="bg-white rounded-2xl backdrop-blur-xl shadow-md h-full border border-gray-100 p-6"
-      >
+      <LandingCard v-for="item of content.selectionSteps" :key="item.step">
         <span class="text-2xl font-extrabold text-brand-dark-blue">{{
           item.step
         }}</span>
@@ -23,7 +19,7 @@ defineProps<{ content: ProcessSteps }>();
         <p class="text-gray-600 mt-3 leading-relaxed whitespace-pre-line">
           {{ item.description }}
         </p>
-      </div>
+      </LandingCard>
     </div>
   </section>
 </template>

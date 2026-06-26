@@ -37,11 +37,7 @@ defineProps<{ content: Solutions }>();
       </div>
 
       <div class="space-y-8">
-        <div
-          v-for="item of content.solutionItems"
-          :key="item.number"
-          class="bg-white rounded-2xl backdrop-blur-xl shadow-md h-full border border-gray-100 p-6"
-        >
+        <LandingCard v-for="item of content.solutionItems" :key="item.number">
           <span class="text-2xl font-extrabold text-brand-dark-blue">{{
             item.number
           }}</span>
@@ -49,7 +45,7 @@ defineProps<{ content: Solutions }>();
           <p class="text-gray-600 mt-3 leading-relaxed whitespace-pre-line">
             {{ item.description }}
           </p>
-        </div>
+        </LandingCard>
       </div>
     </div>
   </section>

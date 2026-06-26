@@ -48,7 +48,7 @@ withDefaults(defineProps<Props>(), {
       </h2>
       <p class="text-white/70 mt-4 text-lg md:text-xl max-w-2xl">{{ desc }}</p>
       <div class="flex mt-8">
-        <LandingLink :href="buttonLink" styleName="inverted">{{
+        <LandingLink :href="buttonLink" styleName="outline">{{
           buttonText
         }}</LandingLink>
       </div>

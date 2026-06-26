@@ -48,7 +48,7 @@ defineProps<{ content: Hero }>();
       class="relative z-10 w-full mx-auto text-center px-5 max-w-6xl xl:max-w-7xl"
     >
       <h1
-        class="font-display text-white font-bold text-4xl sm:text-5xl lg:text-6xl leading-tight"
+        class="font-display text-white font-bold text-4xl sm:text-5xl leading-tight"
       >
         {{ content.title }}
       </h1>
