@@ -51,15 +51,21 @@ export default defineNuxtConfig({
   // (no runtime requests to the Iconify API). `scan` catches icons named
   // statically in templates; the explicit list covers the value-card icons that
   // come from useSiteData via :name="item.icon" (the scanner can't see those).
+  // Keep this list in sync with the `icon` fields in composables/useSiteData.ts
+  // (companyValues.careers + companyValues.aboutUs valueItems).
   icon: {
     clientBundle: {
       scan: true,
       icons: [
+        // companyValues.careers value cards
         "bx:bxs-hand",
         "bx:bxs-shield",
         "bx:bxs-book-open",
         "bx:bxs-bulb",
         "bx:bxs-star",
+        // companyValues.aboutUs value cards (mission / vision / motto)
+        "bx:bxs-flag",
+        "bx:bxs-zap",
       ],
       sizeLimitKb: 512,
     },
