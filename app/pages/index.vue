@@ -3,7 +3,6 @@ definePageMeta({
   layout: "landing",
 });
 
-// Title, description and social tags are set site-wide in app.vue.
 const { hero, intro, solutions } = useSiteData();
 
 useSeoMeta({

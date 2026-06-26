@@ -17,7 +17,6 @@ export default defineAppConfig({
     careersEmail: "careers@elevationmarketing.com",
     address:
       "Collider activity center, 111V Tsarigradsko Shosse Blvd., floor 3, Sofia 1784, Bulgaria",
-    linkedin: "https://www.linkedin.com/company/elevation-marketing/",
     menu: [
       { title: "Services", path: "/services" },
       { title: "Careers", path: "/careers" },

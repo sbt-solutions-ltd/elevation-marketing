@@ -24,7 +24,7 @@ watch(
             alt="Elevation Marketing"
             width="160"
             height="32"
-            class="max-w-[166px] h-10 md:h-8 w-auto"
+            class="max-w-41.5 h-10 md:h-8 w-auto"
           />
         </NuxtLink>
 
@@ -47,22 +47,22 @@ watch(
         <!-- Mobile burger -->
         <button
           @click="open = !open"
-          class="relative z-10 lg:hidden flex flex-col items-center justify-center gap-1 bg-brand-dark-blue rounded-full px-5 py-[0.875rem]"
+          class="relative z-10 lg:hidden flex flex-col items-center justify-center gap-1 bg-brand-dark-blue rounded-full px-5 py-3.5"
           aria-label="Toggle menu"
           :aria-expanded="open"
           aria-controls="mobile-menu"
         >
           <span
-            class="block w-[25px] h-[3px] bg-white rounded-full transition-all duration-300"
-            :class="open ? 'translate-y-[7px] rotate-45' : ''"
+            class="block w-6.25 h-0.75 bg-white rounded-full transition-all duration-300"
+            :class="open ? 'translate-y-1.75 rotate-45' : ''"
           ></span>
           <span
-            class="block w-[25px] h-[3px] bg-white rounded-full transition-all duration-300"
+            class="block w-6.25 h-0.75 bg-white rounded-full transition-all duration-300"
             :class="open ? 'opacity-0' : ''"
           ></span>
           <span
-            class="block w-[25px] h-[3px] bg-white rounded-full transition-all duration-300"
-            :class="open ? '-translate-y-[7px] -rotate-45' : ''"
+            class="block w-6.25 h-0.75 bg-white rounded-full transition-all duration-300"
+            :class="open ? '-translate-y-1.75 -rotate-45' : ''"
           ></span>
         </button>
       </div>

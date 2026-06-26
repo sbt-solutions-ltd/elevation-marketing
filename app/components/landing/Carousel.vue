@@ -41,13 +41,13 @@ onBeforeUnmount(stop);
   <section class="mt-20">
     <LandingIntro :content="intro" />
     <div
-      class="mt-12 flex flex-col lg:flex-row gap-3 h-[550px] lg:h-[485px] xl:h-[550px]"
+      class="mt-12 flex flex-col lg:flex-row gap-3 h-137.5 lg:h-121.25 xl:h-137.5"
     >
       <div
         v-for="(s, i) in slides"
         :key="i"
         @click="go(i)"
-        class="group relative overflow-hidden rounded-3xl cursor-pointer basis-0 min-h-0 min-w-0 transition-[flex-grow] duration-[800ms] ease-[cubic-bezier(0.76,0,0.24,1)]"
+        class="group relative overflow-hidden rounded-3xl cursor-pointer basis-0 min-h-0 min-w-0 transition-[flex-grow] duration-800 ease-[cubic-bezier(0.76,0,0.24,1)]"
         :class="{ 'hidden lg:block': i !== current }"
         :style="{ flexGrow: i === current ? 8 : 1 }"
       >
@@ -56,7 +56,7 @@ onBeforeUnmount(stop);
           :alt="s.label"
           width="944"
           height="700"
-          class="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] ease-out"
+          class="absolute inset-0 w-full h-full object-cover transition-transform duration-1200 ease-out"
           :class="i === current ? 'scale-100' : 'scale-[1.08]'"
           loading="lazy"
         />
@@ -69,7 +69,7 @@ onBeforeUnmount(stop);
           "
         />
         <div
-          class="absolute inset-0 bg-gradient-to-r from-black/85 via-black/45 to-black/10 transition-opacity duration-700 ease-out"
+          class="absolute inset-0 bg-linear-to-r from-black/85 via-black/45 to-black/10 transition-opacity duration-700 ease-out"
           :class="i === current ? 'opacity-100' : 'opacity-0'"
         />
 

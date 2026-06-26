@@ -33,7 +33,6 @@ useSchemaOrg([
   defineOrganization({
     name: site.name,
     url: site.url,
-    sameAs: [site.linkedin],
   }),
 ]);
 </script>

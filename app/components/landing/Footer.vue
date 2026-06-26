@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const { site } = useAppConfig();
 
-// Computed once at render time so the prerendered and hydrated markup match
+// Computed once at render time so the pre-rendered and hydrated markup match
 // (avoids a hydration mismatch around the New Year boundary).
 const year = new Date().getFullYear();
 </script>
@@ -11,11 +11,11 @@ const year = new Date().getFullYear();
     <!-- Main box: full-bleed horizontal borders + 90vw side borders -->
     <div class="border-y border-brand-footer-border">
       <div
-        class="w-[90vw] max-w-[1440px] mx-auto flex flex-col border-x border-brand-footer-border lg:flex-row lg:items-stretch lg:justify-between"
+        class="w-[90vw] max-w-360 mx-auto flex flex-col border-x border-brand-footer-border lg:flex-row lg:items-stretch lg:justify-between"
       >
         <!-- Logo / address / emails -->
         <div
-          class="flex flex-col gap-8 p-6 w-full lg:w-[300px] lg:border-r lg:border-brand-footer-border"
+          class="flex flex-col gap-8 p-6 w-full lg:w-75 lg:border-r lg:border-brand-footer-border"
         >
           <NuxtLink to="/" class="inline-block">
             <img
@@ -23,7 +23,7 @@ const year = new Date().getFullYear();
               :alt="site.name"
               width="154"
               height="27"
-              class="w-[150px] h-auto"
+              class="w-37.5 h-auto"
             />
           </NuxtLink>
           <p class="text-[.88rem] leading-relaxed text-black">
@@ -47,10 +47,10 @@ const year = new Date().getFullYear();
         <div class="flex flex-col w-full lg:w-auto lg:flex-row">
           <!-- Company -->
           <div
-            class="flex flex-row gap-8 p-6 w-full border-t border-brand-footer-border lg:w-[230px] lg:flex-col lg:gap-5 lg:border-t-0 lg:border-l"
+            class="flex flex-row gap-8 p-6 w-full border-t border-brand-footer-border lg:w-57.5 lg:flex-col lg:gap-5 lg:border-t-0 lg:border-l"
           >
             <h5
-              class="w-[130px] shrink-0 text-xl font-medium text-slate-900 md:w-1/2 lg:w-auto"
+              class="w-32.5 shrink-0 text-xl font-medium text-slate-900 md:w-1/2 lg:w-auto"
             >
               Company
             </h5>
@@ -70,7 +70,7 @@ const year = new Date().getFullYear();
 
     <!-- Bottom bar: centered + stacked below lg, split on lg -->
     <div
-      class="w-[90vw] max-w-[1440px] mx-auto flex flex-col border-x border-brand-footer-border items-center gap-4 py-6 px-6 text-center lg:flex-row lg:justify-between lg:text-left"
+      class="w-[90vw] max-w-360 mx-auto flex flex-col border-x border-brand-footer-border items-center gap-4 py-6 px-6 text-center lg:flex-row lg:justify-between lg:text-left"
     >
       <p class="text-[14px] text-black">
         Copyright © {{ year }} {{ site.name }}. All rights reserved.
