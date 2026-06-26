@@ -99,6 +99,22 @@ bun run preview
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
 
+## 🚀 Deployment
+
+Deployment is **automatic** — just push to `master`:
+
+```bash
+git push origin master   # → CI builds & publishes to GitHub Pages
+```
+
+This triggers the [`Deploy to GitHub Pages`](.github/workflows/deploy.yml)
+workflow, which runs `nuxt generate` and publishes the static build. Watch it in
+the **Actions** tab; once it's green the site is live at
+[sbt-solutions-ltd.github.io/elevation-marketing](https://sbt-solutions-ltd.github.io/elevation-marketing/).
+
+No manual build or upload needed. One-time requirement: **Settings → Pages →
+Source** must be set to **GitHub Actions**.
+
 ## Contact form — providing the `NUXT_PUBLIC_WEB3FORMS_KEY`
 
 The contact form submits to [Web3Forms](https://web3forms.com/). It needs an
