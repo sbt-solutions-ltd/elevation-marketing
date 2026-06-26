@@ -1,4 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import tailwindcss from "@tailwindcss/vite";
 
 // When deploying to GitHub Pages the site is served from a sub-path
 // (https://sbt-solutions-ltd.github.io/elevation-marketing/), so every asset
@@ -14,11 +15,18 @@ export default defineNuxtConfig({
   compatibilityDate: "2026-06-24",
 
   modules: [
-    "@nuxtjs/tailwindcss",
     "@nuxt/image",
     "@nuxt/icon",
     "@nuxtjs/seo",
   ],
+
+  // Tailwind CSS v4 is wired in as a Vite plugin (the old @nuxtjs/tailwindcss
+  // module is v3-only). All theme config now lives CSS-first in main.css via
+  // @theme, so there is no tailwind.config.ts.
+  css: ["~/assets/css/main.css"],
+  vite: {
+    plugins: [tailwindcss()],
+  },
 
   // Read by @nuxtjs/seo to build per-page canonical URLs, og:url and the
   // sitemap. `url` is the origin only — the SEO modules append app.baseURL
@@ -38,12 +46,6 @@ export default defineNuxtConfig({
   // No brand OG image yet — skip auto-generating placeholder ones. Re-enable
   // (delete this line) once a real share image / template exists.
   ogImage: { enabled: false },
-
-  // Use the existing stylesheet (holds the @tailwind directives + @layer base
-  // custom rules) instead of the module's default generated file.
-  tailwindcss: {
-    cssPath: "~/assets/css/main.css",
-  },
 
   // Bundle the icons into the client so they render offline on static hosting
   // (no runtime requests to the Iconify API). `scan` catches icons named
