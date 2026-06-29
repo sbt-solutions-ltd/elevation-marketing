@@ -10,6 +10,12 @@ const isGhPages =
   process.env.NODE_ENV === "production" ||
   process.env.DEPLOY_ENV === "gh-pages";
 
+// An explicit NUXT_APP_BASE_URL always wins (e.g. building for an independent
+// host served from the domain root: NUXT_APP_BASE_URL="/"). Otherwise fall back
+// to the GitHub Pages sub-path in production and root in dev.
+const baseURL =
+  process.env.NUXT_APP_BASE_URL ?? (isGhPages ? "/elevation-marketing/" : "/");
+
 export default defineNuxtConfig({
   devtools: { enabled: true },
   compatibilityDate: "2026-06-24",
@@ -32,15 +38,15 @@ export default defineNuxtConfig({
   // sitemap. `url` is the origin only — the SEO modules append app.baseURL
   // (the GitHub Pages "/elevation-marketing/" sub-path) automatically.
   site: {
-    url: "https://sbt-solutions-ltd.github.io",
+    url: "https://elevation-marketing.net",
     name: "Elevation Marketing",
   },
 
-  // A project Pages site can't own /robots.txt at the domain root (it lives
-  // under the sub-path), so skip the file — the per-page robots meta tags that
-  // @nuxtjs/seo injects still apply. The sitemap is still generated.
+  // Served from the domain root on elevation-marketing.net, so the site can own
+  // /robots.txt. @nuxtjs/seo generates it (allow-all by default) and links the
+  // sitemap. The per-page robots meta tags it injects still apply too.
   robots: {
-    robotsTxt: false,
+    robotsTxt: true,
   },
 
   // No brand OG image yet — skip auto-generating placeholder ones. Re-enable
@@ -81,7 +87,7 @@ export default defineNuxtConfig({
   },
 
   app: {
-    baseURL: isGhPages ? "/elevation-marketing/" : "/",
+    baseURL,
     head: {
       htmlAttrs: { lang: "en" },
       link: [
