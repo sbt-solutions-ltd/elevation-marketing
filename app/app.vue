@@ -29,10 +29,15 @@ useSeoMeta({
 });
 
 // Organization node; @nuxtjs/seo adds the WebSite / WebPage schema per page.
+// Build the absolute home URL from the resolved site origin + app base so it
+// matches the deploy target (production root vs the GitHub Pages sub-path).
+const siteConfig = useSiteConfig();
+const { app } = useRuntimeConfig();
+const orgUrl = new URL(app.baseURL, siteConfig.url).href;
 useSchemaOrg([
   defineOrganization({
     name: site.name,
-    url: site.url,
+    url: orgUrl,
   }),
 ]);
 </script>

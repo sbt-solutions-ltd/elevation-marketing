@@ -16,6 +16,28 @@ const isGhPages =
 const baseURL =
   process.env.NUXT_APP_BASE_URL ?? (isGhPages ? "/elevation-marketing/" : "/");
 
+// Which deploy target this build is for, derived from the resolved base path:
+// the GitHub Pages preview lives under the /elevation-marketing/ sub-path,
+// production (elevation-marketing.net) at the domain root. NODE_ENV can't tell
+// the two static builds apart (both run `nuxt generate` with NODE_ENV=production)
+// — the base path can. Drives the Web3Forms key and canonical origin below.
+const isGhPagesDeploy = baseURL.startsWith("/elevation-marketing");
+
+// Web3Forms access keys are public by design (sent from the browser) and each
+// is domain-restricted in the Web3Forms dashboard, so they live in source.
+// Pick the key matching the deploy target. An explicit NUXT_PUBLIC_WEB3FORMS_KEY
+// env var still overrides this (handy for local dev / one-off hosts).
+const web3formsKey = isGhPagesDeploy
+  ? "44b3325c-e645-4440-9985-cd86c14f639d" // GitHub Pages preview
+  : "9f9e2e49-9e8a-4b02-9828-40cb30fe075f"; // production (elevation-marketing.net)
+
+// Canonical origin per deploy target (the SEO module appends baseURL + path, so
+// this is the origin only). Production: https://elevation-marketing.net/ — GitHub
+// Pages: https://sbt-solutions-ltd.github.io/elevation-marketing/.
+const siteUrl = isGhPagesDeploy
+  ? "https://sbt-solutions-ltd.github.io"
+  : "https://elevation-marketing.net";
+
 export default defineNuxtConfig({
   devtools: { enabled: true },
   compatibilityDate: "2026-06-24",
@@ -38,15 +60,17 @@ export default defineNuxtConfig({
   // sitemap. `url` is the origin only — the SEO modules append app.baseURL
   // (the GitHub Pages "/elevation-marketing/" sub-path) automatically.
   site: {
-    url: "https://elevation-marketing.net",
+    url: siteUrl,
     name: "Elevation Marketing",
   },
 
-  // Served from the domain root on elevation-marketing.net, so the site can own
-  // /robots.txt. @nuxtjs/seo generates it (allow-all by default) and links the
-  // sitemap. The per-page robots meta tags it injects still apply too.
+  // Production is served from the domain root on elevation-marketing.net, so it
+  // can own /robots.txt — @nuxtjs/seo generates it (allow-all) and links the
+  // sitemap. The GitHub Pages preview lives under a sub-path and can't own the
+  // domain-root robots.txt, so skip the file there (the per-page robots meta
+  // tags it injects still apply in both).
   robots: {
-    robotsTxt: true,
+    robotsTxt: !isGhPagesDeploy,
   },
 
   // No brand OG image yet — skip auto-generating placeholder ones. Re-enable
@@ -77,12 +101,11 @@ export default defineNuxtConfig({
     },
   },
 
-  // Web3Forms access key for the contact form. Set NUXT_PUBLIC_WEB3FORMS_KEY in
-  // the environment (or a .env file) — never commit the real key. Get a free
-  // key at https://web3forms.com/.
+  // Web3Forms access key for the contact form, selected per deploy target above
+  // (web3formsKey). Override per environment with NUXT_PUBLIC_WEB3FORMS_KEY.
   runtimeConfig: {
     public: {
-      web3formsKey: "",
+      web3formsKey,
     },
   },
 

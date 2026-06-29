@@ -101,121 +101,100 @@ Check out the [deployment documentation](https://nuxt.com/docs/getting-started/d
 
 ## 🚀 Deployment
 
-Deployment is **automatic** — just push to `master`:
+The site has **two deploy targets**. `nuxt.config.ts` adapts to each one
+automatically — base path, canonical/SEO origin, `robots.txt` and the Web3Forms
+key are all chosen from the resolved base URL (`isGhPagesDeploy`):
+
+| Target                   | URL                                            | Base path               | How to deploy                |
+| ------------------------ | ---------------------------------------------- | ----------------------- | ---------------------------- |
+| **Production**           | https://elevation-marketing.net/               | `/`                     | build locally, upload by FTP |
+| **GitHub Pages preview** | https://sbt-solutions-ltd.github.io/elevation-marketing/ | `/elevation-marketing/` | push to `master` (CI)        |
+
+### GitHub Pages preview — automatic
+
+Just push to `master`:
 
 ```bash
 git push origin master   # → CI builds & publishes to GitHub Pages
 ```
 
 This triggers the [`Deploy to GitHub Pages`](.github/workflows/deploy.yml)
-workflow, which runs `nuxt generate` and publishes the static build. Watch it in
-the **Actions** tab; once it's green the site is live at
-[sbt-solutions-ltd.github.io/elevation-marketing](https://sbt-solutions-ltd.github.io/elevation-marketing/).
+workflow (`nuxt generate` with `NODE_ENV=production` → the `/elevation-marketing/`
+sub-path). Watch the **Actions** tab; once it's green it's live. One-time setup:
+**Settings → Pages → Source** must be **GitHub Actions**.
 
-No manual build or upload needed. One-time requirement: **Settings → Pages →
-Source** must be set to **GitHub Actions**.
+### Production (elevation-marketing.net) — build + FTP
 
-## Contact form — providing the `NUXT_PUBLIC_WEB3FORMS_KEY`
+The production host only serves static files, so build locally with the root
+base path and upload the output:
 
-The contact form submits to [Web3Forms](https://web3forms.com/). It needs an
-**access key** to deliver submissions. Here is how the key flows through the
-project and how to provide it in every environment.
+```bash
+# PowerShell
+$env:NUXT_APP_BASE_URL="/"; npm run generate
+# bash:  NUXT_APP_BASE_URL=/ npm run generate
 
-### How the key works
-
-```
-NUXT_PUBLIC_WEB3FORMS_KEY   ← env var you set
-        ↓ (Nuxt auto-maps NUXT_PUBLIC_* → runtimeConfig.public.*)
-runtimeConfig.public.web3formsKey   ← defined in nuxt.config.ts (default "")
-        ↓
-useRuntimeConfig().public.web3formsKey   ← read in components/landing/ContactForm.vue
+# → upload the *contents* of .output/public/ into the FTP docroot (e.g. public_html)
 ```
 
-**Most important fact:** the site is deployed with `nuxt generate` (a _static_
-build). For static builds, `runtimeConfig.public` values are **baked into the
-HTML/JS at build time** — they are _not_ read from the server at runtime. So the
-env var must exist **wherever `nuxt generate` runs** (CI or your build machine).
-The machine that _serves_ the files never needs it.
+`NUXT_APP_BASE_URL="/"` overrides the default sub-path so assets resolve from the
+domain root; the root base also selects the production SEO origin and Web3Forms
+key automatically. Don't upload `.env` — the key is already baked into the build.
+
+## Contact form — the Web3Forms key
+
+The contact form submits to [Web3Forms](https://web3forms.com/), which needs an
+**access key** to deliver submissions. The project has **two keys** — one per
+deploy target — and `nuxt.config.ts` selects the right one automatically. There
+is nothing to set up.
+
+### How the key is chosen
+
+`nuxt.config.ts` picks the key from the resolved base path — the same
+`isGhPagesDeploy` signal that drives the base URL, SEO origin and `robots.txt`:
+
+```ts
+const isGhPagesDeploy = baseURL.startsWith("/elevation-marketing");
+const web3formsKey = isGhPagesDeploy
+  ? "…"  // GitHub Pages preview key
+  : "…"; // production key (elevation-marketing.net)
+```
+
+- **Production build** (root base, `NUXT_APP_BASE_URL="/"`) → production key.
+- **GitHub Pages build** (`/elevation-marketing/` sub-path) → preview key.
+
+The chosen value is baked into the static HTML/JS at build time (`nuxt
+generate`), so the serving machine never needs it.
+
+### Why the keys live in source
 
 A Web3Forms access key is **public by design** — it is sent from the browser, so
-anyone can see it in DevTools. "Keeping it secret" here means _keeping it out of
-git_, not hiding it from users. Protect it instead by **restricting the key to
-your domain(s)** in the Web3Forms dashboard.
+anyone can read it in DevTools. There is nothing to hide, so the keys sit
+directly in `nuxt.config.ts`. Each is instead protected by **domain restriction**
+in the Web3Forms dashboard:
 
-### Step 1 — Get the key from Web3Forms
+- preview key → allowed only on the `sbt-solutions-ltd.github.io` URL
+- production key → allowed only on `elevation-marketing.net`
 
-1. Go to https://web3forms.com/.
-2. Enter the email where you want submissions delivered → it emails you an
-   **access key** (a UUID like `a1b2c3d4-...`).
-3. In the dashboard, **restrict the key to your domain(s)** — add both the
-   GitHub Pages URL and your future independent domain. This is your real
-   protection since the key is public.
+That domain lock is the real protection — and the reason each target needs its
+own key (one key restricted to a single domain can't serve both).
 
-### Step 2 — Local development (`.env`)
+### Overriding locally
 
-`.env` is already git-ignored, so this is safe:
-
-```bash
-# in the project root
-echo 'NUXT_PUBLIC_WEB3FORMS_KEY=your-key-here' > .env
-```
-
-Then `npm run dev` — Nuxt auto-loads `.env` and the form submits for real.
-
-### Step 3 — GitHub Pages deploy (repo secret)
-
-`.github/workflows/deploy.yml` already reads
-`secrets.NUXT_PUBLIC_WEB3FORMS_KEY`. Create the secret:
-
-1. GitHub repo → **Settings** → **Secrets and variables** → **Actions**.
-2. **New repository secret**.
-3. Name: `NUXT_PUBLIC_WEB3FORMS_KEY` (exact spelling) — Value: your key → **Add
-   secret**.
-4. Re-run the deploy (push any commit, or Actions tab → Deploy workflow → **Run
-   workflow**).
-
-The CI injects it into the environment during `npm run generate`, baking it into
-the static output.
-
-### Step 4 — Hosting on an independent server
-
-The right approach depends on **how you build there**.
-
-**Case A — Still a static site (matches the current setup).**
-The server only serves files; the key is baked in at build time.
+In local dev the production key is selected, and because it's domain-locked to
+`elevation-marketing.net` the form won't deliver from `localhost`. To test the
+form locally, drop an **unrestricted** dev key into `.env` (git-ignored):
 
 ```bash
-export NUXT_PUBLIC_WEB3FORMS_KEY=your-key-here
-npm ci && npm run generate
-# then upload .output/public/* to the server's docroot (nginx/Apache)
+echo 'NUXT_PUBLIC_WEB3FORMS_KEY=your-dev-key' > .env
 ```
 
-Nothing about the key lives on the serving machine. If you use a CI/CD pipeline
-(GitLab CI, Jenkins, a new GitHub Action), store the key as that system's
-secret and expose it as `NUXT_PUBLIC_WEB3FORMS_KEY` in the build step — same
-pattern as Step 3.
+`NUXT_PUBLIC_WEB3FORMS_KEY` overrides the config selection in any environment
+(this is the only thing the env var is still used for).
 
-> ⚠️ When you move off GitHub Pages, also revisit `nuxt.config.ts`: it forces the
-> `/elevation-marketing/` sub-path whenever `NODE_ENV=production`. On your own
-> domain (served from root) set `baseURL: "/"`, so the `isGhPages` logic needs
-> adjusting then.
+### Rotating a key
 
-**Case B — Node / SSR server (`nuxt build` + `node .output/server`).**
-Here `runtimeConfig.public` _is_ read at runtime, so you can rotate the key
-without rebuilding. Set the env var in the server's runtime environment:
-
-- **systemd:** `Environment=NUXT_PUBLIC_WEB3FORMS_KEY=your-key-here` in the unit file
-- **Docker:** `-e NUXT_PUBLIC_WEB3FORMS_KEY=your-key-here` (or under `environment:` in `docker-compose.yml`)
-- **PM2:** add it under `env:` in your ecosystem file
-
-### Quick reference
-
-| Environment            | Where to set the key                          | Read at     |
-| ---------------------- | --------------------------------------------- | ----------- |
-| Local dev              | `.env` file                                   | build (dev) |
-| GitHub Pages           | Repo Actions secret                           | build (CI)  |
-| Independent — static   | Build machine / CI env before `nuxt generate` | build       |
-| Independent — Node/SSR | Server runtime env (systemd/Docker/PM2)       | runtime     |
+Edit the relevant key in `nuxt.config.ts` and rebuild/redeploy — there is no repo
+secret or server env var to keep in sync.
 
 ---
 

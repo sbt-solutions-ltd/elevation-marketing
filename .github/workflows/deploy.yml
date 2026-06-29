@@ -35,14 +35,14 @@ jobs:
 
       # `nuxt generate` sets NODE_ENV=production, which switches nuxt.config to
       # the /elevation-marketing/ baseURL. Set explicitly too as a safeguard.
+      # The contact-form Web3Forms key is selected automatically in
+      # nuxt.config.ts by deploy target — this build resolves to the GitHub Pages
+      # preview key. No NUXT_PUBLIC_WEB3FORMS_KEY secret needed; setting one here
+      # would override that selection.
       - name: Generate static site
         run: npm run generate
         env:
           NODE_ENV: production
-          # Baked into the static build for the contact form. Add the value as a
-          # repo secret (Settings -> Secrets and variables -> Actions). Until the
-          # secret exists this is empty and form submissions won't be delivered.
-          NUXT_PUBLIC_WEB3FORMS_KEY: ${{ secrets.NUXT_PUBLIC_WEB3FORMS_KEY }}
 
       - uses: actions/upload-pages-artifact@v3
         with:

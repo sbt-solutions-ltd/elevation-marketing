@@ -5,8 +5,6 @@ export default defineAppConfig({
     tagline: "Strategy. Business. Technology.",
     description:
       "Your all-in-one partner for digital growth. One solution that turns digital complexity into growth.",
-    // Public URL of the deployed site (used for canonical / Open Graph).
-    url: "https://elevation-marketing.net",
     // SEO copy used for <title>, meta description, Open Graph and Twitter.
     seoTitle: "Elevation Marketing – Digital Strategy, Technology & Growth",
     seoDescription:
