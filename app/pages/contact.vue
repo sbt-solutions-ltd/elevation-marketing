@@ -66,13 +66,13 @@ useSeoMeta({
             what's next with us? Fill out the form or reach us directly.
           </p>
           <div class="mt-6 space-y-3">
-            <div class="flex items-start gap-2 text-white/80">
+            <!-- <div class="flex items-start gap-2 text-white/80">
               <Icon
                 class="text-white/60 w-5 h-5 mt-0.5 shrink-0"
                 name="uil:map-marker"
               />
               <span>{{ site.address }}</span>
-            </div>
+            </div> -->
             <div class="flex items-center gap-2 text-white/80">
               <Icon
                 class="text-white/60 w-5 h-5 shrink-0"
@@ -81,17 +81,6 @@ useSeoMeta({
               <a :href="`mailto:${site.email}`" class="hover:text-white">{{
                 site.email
               }}</a>
-            </div>
-            <div class="flex items-center gap-2 text-white/80">
-              <Icon
-                class="text-white/60 w-5 h-5 shrink-0"
-                name="uil:envelope"
-              />
-              <a
-                :href="`mailto:${site.careersEmail}`"
-                class="hover:text-white"
-                >{{ site.careersEmail }}</a
-              >
             </div>
           </div>
 

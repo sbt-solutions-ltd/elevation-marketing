@@ -13,10 +13,8 @@ export default defineAppConfig({
       "Elevation Marketing integrates strategy, software, and customer operations into one agile system. We modernize tech and boost retention to turn complexity into growth.",
     // Social share image (1200x630). Add the file at public/og-image.png.
     // ogImage: "/og-image.png",
-    email: "hello@elevationmarketing.com",
-    careersEmail: "careers@elevationmarketing.com",
-    address:
-      "Collider activity center, 111V Tsarigradsko Shosse Blvd., floor 3, Sofia 1784, Bulgaria",
+    email: "contacts@elevation-marketing.net",
+    address: "Some address, 1234, City, State, Country",
     menu: [
       { title: "Services", path: "/services" },
       { title: "Careers", path: "/careers" },

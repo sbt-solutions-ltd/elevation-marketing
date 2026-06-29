@@ -15,7 +15,7 @@ const year = new Date().getFullYear();
       >
         <!-- Logo / address / emails -->
         <div
-          class="flex flex-col gap-8 p-6 w-full lg:w-75 lg:border-r lg:border-brand-footer-border"
+          class="flex flex-col gap-8 p-6 w-full lg:w-80 lg:border-r lg:border-brand-footer-border"
         >
           <NuxtLink to="/" class="inline-block">
             <img
@@ -26,19 +26,14 @@ const year = new Date().getFullYear();
               class="w-37.5 h-auto"
             />
           </NuxtLink>
-          <p class="text-[.88rem] leading-relaxed text-black">
+          <!-- <p class="text-[.88rem] leading-relaxed text-black">
             {{ site.address }}
-          </p>
+          </p> -->
           <div class="flex flex-col gap-2 text-[.88rem]">
             <a
               :href="`mailto:${site.email}`"
               class="font-medium text-black transition-colors hover:text-brand-light-blue"
               >{{ site.email }}</a
-            >
-            <a
-              :href="`mailto:${site.careersEmail}`"
-              class="font-medium text-black transition-colors hover:text-brand-light-blue"
-              >{{ site.careersEmail }}</a
             >
           </div>
         </div>
