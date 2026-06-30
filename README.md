@@ -1,16 +1,21 @@
 # ↗️ Elevation Marketing Website
 
 This is the newly created website for the brand Elevation Marketing.
+The design for it was inspired by [SBT Solution's Website](https://sbtsolution.com/).
 It uses the [Nuxtship - Nuxt SAAS Starter Website Template](https://github.com/Gr33nW33n/nuxtship-template) as a base.
+
 It's build with:
 
-- Nuxt 4.4.8
-- Tailwind 4.3.1
+- Nuxt.js 4.4.8
+- Tailwind CSS 4.3.1
 - @tailwindcss/typography 0.5.20
-- @nuxt/image 2.0
 - @nuxt/icon 2.2.4
 - @nuxtjs/seo 5.3.1
 - nuxt-og-image 6.7.0
+
+> All Tailwind theme config lives CSS-first in
+> [`app/assets/css/main.css`](app/assets/css/main.css) via `@theme` — there is
+> no `tailwind.config.ts`.
 
 ## Nuxtship - Nuxt SAAS Starter Website Template
 
@@ -65,23 +70,23 @@ bun run dev
 
 ## Production
 
-Build the application for production:
+Build the static site:
 
 ```bash
 # npm
-npm run build
+npm run generate
 
 # pnpm
-pnpm run build
+pnpm run generate
 
 # yarn
-yarn build
+yarn generate
 
 # bun
-bun run build
+bun run generate
 ```
 
-Locally preview production build:
+Locally preview the production build:
 
 ```bash
 # npm
@@ -105,9 +110,9 @@ The site has **two deploy targets**. `nuxt.config.ts` adapts to each one
 automatically — base path, canonical/SEO origin, `robots.txt` and the Web3Forms
 key are all chosen from the resolved base URL (`isGhPagesDeploy`):
 
-| Target                   | URL                                            | Base path               | How to deploy                |
-| ------------------------ | ---------------------------------------------- | ----------------------- | ---------------------------- |
-| **Production**           | https://elevation-marketing.net/               | `/`                     | build locally, upload by FTP |
+| Target                   | URL                                                      | Base path               | How to deploy                |
+| ------------------------ | -------------------------------------------------------- | ----------------------- | ---------------------------- |
+| **Production**           | https://elevation-marketing.net/                         | `/`                     | build locally, upload by FTP |
 | **GitHub Pages preview** | https://sbt-solutions-ltd.github.io/elevation-marketing/ | `/elevation-marketing/` | push to `master` (CI)        |
 
 ### GitHub Pages preview — automatic
@@ -118,9 +123,10 @@ Just push to `master`:
 git push origin master   # → CI builds & publishes to GitHub Pages
 ```
 
-This triggers the [`Deploy to GitHub Pages`](.github/workflows/deploy.yml)
-workflow (`nuxt generate` with `NODE_ENV=production` → the `/elevation-marketing/`
-sub-path). Watch the **Actions** tab; once it's green it's live. One-time setup:
+This triggers the [`Deploy to GitHub Pages`](.github/workflows/deploy.yml) workflow
+(`nuxt generate` with `NODE_ENV=production` → the `/elevation-marketing/` sub-path, then
+publishes `.output/public` via the official `upload-pages-artifact` / `deploy-pages`
+actions). Watch the **Actions** tab; once it's green it's live. One-time setup:
 **Settings → Pages → Source** must be **GitHub Actions**.
 
 ### Production (elevation-marketing.net) — build + FTP
@@ -133,19 +139,21 @@ base path and upload the output:
 $env:NUXT_APP_BASE_URL="/"; npm run generate
 # bash:  NUXT_APP_BASE_URL=/ npm run generate
 
-# → upload the *contents* of .output/public/ into the FTP docroot (e.g. public_html)
+# → upload the *contents* of .output/public/ into the web root (e.g. public_html)
 ```
 
 `NUXT_APP_BASE_URL="/"` overrides the default sub-path so assets resolve from the
 domain root; the root base also selects the production SEO origin and Web3Forms
-key automatically. Don't upload `.env` — the key is already baked into the build.
+automatically. Asset URLs are made base-aware via the
+[`useAsset()`](app/composables/useAsset.ts) composable, so they resolve under
+either base path. Don't upload `.env` — the key is already baked into the build.
 
 ## Contact form — the Web3Forms key
 
-The contact form submits to [Web3Forms](https://web3forms.com/), which needs an
-**access key** to deliver submissions. The project has **two keys** — one per
-deploy target — and `nuxt.config.ts` selects the right one automatically. There
-is nothing to set up.
+The contact form ([`app/pages/contact-us.vue`](app/pages/contact-us.vue))
+submits to [Web3Forms](https://web3forms.com/), which needs an **access key** to
+deliver submissions. The project has **two keys** — one per deploy target — and
+`nuxt.config.ts` selects the right one automatically. There is nothing to set up.
 
 ### How the key is chosen
 
@@ -155,8 +163,8 @@ is nothing to set up.
 ```ts
 const isGhPagesDeploy = baseURL.startsWith("/elevation-marketing");
 const web3formsKey = isGhPagesDeploy
-  ? "…"  // GitHub Pages preview key
-  : "…"; // production key (elevation-marketing.net)
+  ? "44b3325c-…" // GitHub Pages preview key
+  : "9f9e2e49-…"; // production key (elevation-marketing.net)
 ```
 
 - **Production build** (root base, `NUXT_APP_BASE_URL="/"`) → production key.
@@ -173,16 +181,16 @@ directly in `nuxt.config.ts`. Each is instead protected by **domain restriction*
 in the Web3Forms dashboard:
 
 - preview key → allowed only on the `sbt-solutions-ltd.github.io` URL
-- production key → allowed only on `elevation-marketing.net`
+- production key → allowed only on the production domain (e.g. `elevation-marketing.net`)
 
 That domain lock is the real protection — and the reason each target needs its
 own key (one key restricted to a single domain can't serve both).
 
 ### Overriding locally
 
-In local dev the production key is selected, and because it's domain-locked to
-`elevation-marketing.net` the form won't deliver from `localhost`. To test the
-form locally, drop an **unrestricted** dev key into `.env` (git-ignored):
+In local dev the production key is selected, and because it's domain-locked the
+form won't deliver from `localhost`. To test the form locally, drop an
+**unrestricted** dev key into `.env` (git-ignored):
 
 ```bash
 echo 'NUXT_PUBLIC_WEB3FORMS_KEY=your-dev-key' > .env
@@ -195,6 +203,16 @@ echo 'NUXT_PUBLIC_WEB3FORMS_KEY=your-dev-key' > .env
 
 Edit the relevant key in `nuxt.config.ts` and rebuild/redeploy — there is no repo
 secret or server env var to keep in sync.
+
+## ⚠️ Local antivirus note
+
+Windows Defender may flag the contact form (a form that POSTs to an external API)
+as a **`Trojan:HTML/FakeLogin`** false positive and quarantine
+`app/pages/contact-us.vue`. CI builds on Linux are unaffected. If the file
+vanishes locally, restore it from git
+(`git restore app/pages/contact-us.vue`) and add a Windows Defender exclusion
+for the project folder, or restore the file from Defender's **Protection
+history**.
 
 ---
 

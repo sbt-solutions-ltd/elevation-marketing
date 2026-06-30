@@ -18,9 +18,9 @@ watch(
       <div
         class="relative overflow-hidden bg-white rounded-pill px-3 md:px-7 py-3 flex flex-row items-center justify-between gap-6 backdrop-blur-xl shadow-md h-full border border-gray-100 lg:min-w-[60vw] lg:mx-auto"
       >
-        <NuxtLink to="/" class="relative z-10 shrink-0">
+        <NuxtLink to="/" aria-label="Elevation Marketing — home" class="relative z-10 shrink-0">
           <img
-            src="/logo.png"
+            src="/logo.webp"
             alt="Elevation Marketing"
             width="160"
             height="32"

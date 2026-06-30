@@ -17,9 +17,9 @@ const year = new Date().getFullYear();
         <div
           class="flex flex-col gap-8 p-6 w-full lg:w-80 lg:border-r lg:border-brand-footer-border"
         >
-          <NuxtLink to="/" class="inline-block">
+          <NuxtLink to="/" aria-label="Elevation Marketing — home" class="inline-block">
             <img
-              src="/logo.png"
+              src="/logo.webp"
               :alt="site.name"
               width="154"
               height="27"

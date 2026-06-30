@@ -43,10 +43,24 @@ export default defineNuxtConfig({
   compatibilityDate: "2026-06-24",
 
   modules: [
-    "@nuxt/image",
     "@nuxt/icon",
+    "@nuxt/fonts",
     "@nuxtjs/seo",
   ],
+
+  // Self-host the brand fonts instead of loading them from the Google Fonts CDN.
+  // @nuxt/fonts downloads the woff2 files at build time, serves them same-origin
+  // (no cross-origin preconnect/round-trip on the critical path), and generates
+  // size-adjusted fallback @font-face rules so swapping in the web font causes no
+  // layout shift. Only the weights actually used are fetched — keep these in sync
+  // with main.css (Poppins font-sans / Plus Jakarta Sans font-display) and the
+  // font-weight utilities used in templates.
+  fonts: {
+    families: [
+      { name: "Poppins", provider: "google", weights: [400, 500, 600, 700, 800] },
+      { name: "Plus Jakarta Sans", provider: "google", weights: [600, 700] },
+    ],
+  },
 
   // Tailwind CSS v4 is wired in as a Vite plugin (the old @nuxtjs/tailwindcss
   // module is v3-only). All theme config now lives CSS-first in main.css via
@@ -54,6 +68,16 @@ export default defineNuxtConfig({
   css: ["~/assets/css/main.css"],
   vite: {
     plugins: [tailwindcss()],
+    // Pre-bundle these dev-only deps so Vite doesn't discover them mid-session
+    // and trigger a full page reload (dependency re-optimization). Dev only —
+    // Vite ignores optimizeDeps during `nuxt generate`/`build`.
+    optimizeDeps: {
+      include: [
+        "@unhead/schema-org/vue",
+        "@vue/devtools-core",
+        "@vue/devtools-kit",
+      ],
+    },
   },
 
   // Read by @nuxtjs/seo to build per-page canonical URLs, og:url and the
@@ -113,30 +137,40 @@ export default defineNuxtConfig({
     baseURL,
     head: {
       htmlAttrs: { lang: "en" },
+      // Brand fonts are now self-hosted via @nuxt/fonts (see `fonts` above), so
+      // the Google Fonts CDN preconnect/preload/noscript links are gone — the
+      // module injects same-origin @font-face + preload for the first used font.
       link: [
-        { rel: "preconnect", href: "https://fonts.googleapis.com" },
-        {
-          rel: "preconnect",
-          href: "https://fonts.gstatic.com",
-          crossorigin: "",
-        },
-        // Load fonts non-blocking but at HIGH priority (preload as style, then
-        // promote to a stylesheet on load). This keeps render unblocked while
-        // making the display font available early so the LCP heading doesn't
-        // wait on a late font swap. Only used weights are requested
-        // (Poppins 400-800; Plus Jakarta Sans only 600/700).
+        // Preload the hero image — it's the LCP element (full-bleed background
+        // of the first section). The <picture> in components/landing/Hero.vue
+        // already sets fetchpriority="high", but a <head> preload lets the
+        // browser start the fetch before it parses down to the markup. The
+        // `media` queries MUST mirror Hero.vue's <source> breakpoints exactly so
+        // only the variant that will actually render is fetched (no double
+        // download), and the hrefs match the <img>/<source> paths verbatim.
         {
           rel: "preload",
-          as: "style",
-          href: "https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700&display=swap",
-          onload: "this.onload=null;this.rel='stylesheet'",
+          as: "image",
+          href: "/hero/hero-mobile.webp",
+          type: "image/webp",
+          media: "(max-width: 767px)",
+          fetchpriority: "high",
         },
-      ],
-      // Fallback for users with JavaScript disabled.
-      noscript: [
         {
-          innerHTML:
-            '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700&display=swap">',
+          rel: "preload",
+          as: "image",
+          href: "/hero/hero-tablet.webp",
+          type: "image/webp",
+          media: "(min-width: 768px) and (max-width: 1023px)",
+          fetchpriority: "high",
+        },
+        {
+          rel: "preload",
+          as: "image",
+          href: "/hero/hero-desktop.webp",
+          type: "image/webp",
+          media: "(min-width: 1024px)",
+          fetchpriority: "high",
         },
       ],
     },
