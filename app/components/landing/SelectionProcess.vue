@@ -15,7 +15,7 @@ defineProps<{ content: ProcessSteps }>();
           item.step
         }}</span>
         <h3 class="font-bold text-xl mt-4">{{ item.title }}</h3>
-        <h4 class="font-semibold text-lg mt-2">{{ item.highlight }}</h4>
+        <p class="font-semibold text-lg mt-2">{{ item.highlight }}</p>
         <p class="text-gray-600 mt-3 leading-relaxed whitespace-pre-line">
           {{ item.description }}
         </p>

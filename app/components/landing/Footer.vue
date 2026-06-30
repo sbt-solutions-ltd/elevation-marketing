@@ -44,11 +44,11 @@ const year = new Date().getFullYear();
           <div
             class="flex flex-row gap-8 p-6 w-full border-t border-brand-footer-border lg:w-57.5 lg:flex-col lg:gap-5 lg:border-t-0 lg:border-l"
           >
-            <h5
+            <h2
               class="w-32.5 shrink-0 text-xl font-medium text-slate-900 md:w-1/2 lg:w-auto"
             >
               Company
-            </h5>
+            </h2>
             <ul class="flex flex-col md:w-1/2 lg:w-auto">
               <li v-for="item of site.menu" :key="item.path">
                 <NuxtLink

@@ -20,7 +20,7 @@ defineProps<{ content: CompanyValues }>();
           </div>
           <div class="mt-4">
             <h2 class="text-2xl font-semibold">{{ item.title }}</h2>
-            <h4 class="text-lg font-semibold mt-2">{{ item.highlight }}</h4>
+            <p class="text-lg font-semibold mt-2">{{ item.highlight }}</p>
             <p class="text-gray-600 mt-3 leading-relaxed">
               {{ item.description }}
             </p>
