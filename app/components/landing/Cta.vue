@@ -10,7 +10,7 @@ withDefaults(defineProps<Props>(), {
   title: "Ready to move forward?",
   desc: "Let's turn your vision into action.",
   buttonText: "Contact us",
-  buttonLink: "/contact",
+  buttonLink: "/contact-us",
 });
 </script>
 

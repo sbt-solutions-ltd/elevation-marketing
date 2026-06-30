@@ -32,7 +32,7 @@ defineProps<{ content: Solutions }>();
           />
         </picture>
         <div class="mt-8">
-          <LandingLink href="/contact">{{ content.buttonText }}</LandingLink>
+          <LandingLink href="/contact-us">{{ content.buttonText }}</LandingLink>
         </div>
       </div>
 

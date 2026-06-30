@@ -39,7 +39,7 @@ watch(
         </nav>
 
         <div class="relative z-10 hidden lg:block shrink-0">
-          <LandingLink href="/contact" styleName="primary" size="md"
+          <LandingLink href="/contact-us" styleName="primary" size="md"
             >Contact Us</LandingLink
           >
         </div>
@@ -87,7 +87,7 @@ watch(
           </ul>
           <div class="mt-4">
             <LandingLink
-              href="/contact"
+              href="/contact-us"
               class="bg-brand-dark-blue rounded-pill text-white"
               size="md"
               block
